@@ -13,3 +13,6 @@
 [submodule "frontend"]
 	path = frontend
 	url = https://github.com/MatryoshkaAudit/frontend.git
+[submodule "analytics-service"]
+	path = analytics-service
+	url = https://github.com/MatryoshkaAudit/analytics-service.git

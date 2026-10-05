@@ -13,11 +13,12 @@
 
 | Репозиторий | Стек / Технологии | Назначение | Порты |
 |---|---|---|---|
-| [`protos`](https://github.com/MatryoshkaAudit/protos) | Protocol Buffers, gRPC, Pydantic v2 | Контракты взаимодействия (BOM, Policy, Audit), скомпилированные Python-стабы и DTO | — |
-| [`database`](https://github.com/MatryoshkaAudit/database) | SQLAlchemy 2.0 (asyncpg), PostgreSQL 16, Alembic | Модели БД, пул асинхронных сессий, сид-данные эталонного кейса Харвестера ЛХ-4 | `5432` |
+| [`protos`](https://github.com/MatryoshkaAudit/protos) | Protocol Buffers, gRPC, Pydantic v2 | Контракты взаимодействия (BOM, Policy, Audit, Analytics), скомпилированные Python-стабы и DTO | — |
+| [`database`](https://github.com/MatryoshkaAudit/database) | SQLAlchemy 2.0 (asyncpg), PostgreSQL 16, Alembic | Транзакционные модели БД (OLTP), сид-данные эталонного кейса Харвестера ЛХ-4 | `5433` (внутри `5432`) |
 | [`enterprise-service`](https://github.com/MatryoshkaAudit/enterprise-service) | FastAPI, gRPC, Python 3.10+ | Кабинет предприятия: многоуровневый граф BOM (Tier 1-3), детекция O-Ring уязвимостей, каталог аналогов | `8001` (REST), `50051` (gRPC) |
 | [`regulator-service`](https://github.com/MatryoshkaAudit/regulator-service) | FastAPI, gRPC, OpenRouter AI, Python 3.10+ | Ситуационный центр: оценка по ПП РФ № 719, симулятор санкционных шоков, ИИ-сценарии, цифровая ЭЦП | `8002` (REST), `50052` (gRPC) |
-| [`frontend`](https://github.com/MatryoshkaAudit/frontend) | React 18, TypeScript, Vite, Tailwind CSS, Lucide | Двухпортальный клиент: Кабинет Завода & Ситуационный Центр Регулятора. Anti-AI-slop дизайн | `3000` |
+| [`analytics-service`](https://github.com/MatryoshkaAudit/analytics-service) | FastAPI, gRPC, ClickHouse, Redis | Аналитическое ядро OLAP: неизменяемый реестр решений, стохастическое моделирование Монте-Карло, временные ряды | `8003` (REST), `50053` (gRPC), `8123` (CH) |
+| [`frontend`](https://github.com/MatryoshkaAudit/frontend) | React 18, TypeScript, Vite, Tailwind CSS, Lucide | Трехпортальный клиент: Кабинет Завода, Ситуационный Центр и ClickHouse OLAP Аналитика. Anti-AI-slop | `3000` |
 
 ---
 
