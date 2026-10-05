@@ -103,14 +103,27 @@ services:
       redis:
         condition: service_started
 
-  frontend:
+  enterprise-frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    container_name: matryoshka_frontend
+    container_name: matryoshka_enterprise_frontend
     restart: unless-stopped
     ports:
       - "3000:80"
+    depends_on:
+      - enterprise-service
+      - regulator-service
+      - analytics-service
+
+  regulator-admin-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: matryoshka_regulator_frontend
+    restart: unless-stopped
+    ports:
+      - "3001:80"
     depends_on:
       - enterprise-service
       - regulator-service
