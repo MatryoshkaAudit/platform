@@ -1,0 +1,78 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: matryoshka_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: matryoshka
+      POSTGRES_PASSWORD: matryoshka_pass
+      POSTGRES_DB: matryoshka_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U matryoshka -d matryoshka_db"]
+      interval: 3s
+      timeout: 3s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: matryoshka_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+
+  enterprise-service:
+    build:
+      context: .
+      dockerfile: enterprise-service/Dockerfile
+    container_name: matryoshka_enterprise_service
+    restart: unless-stopped
+    ports:
+      - "8001:8001"
+      - "50051:50051"
+    environment:
+      - DB_URL=postgresql+asyncpg://matryoshka:matryoshka_pass@postgres:5432/matryoshka_db
+      - DATABASE_URL=postgresql+asyncpg://matryoshka:matryoshka_pass@postgres:5432/matryoshka_db
+      - SERVICE_REST_PORT=8001
+      - SERVICE_GRPC_PORT=50051
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  regulator-service:
+    build:
+      context: .
+      dockerfile: regulator-service/Dockerfile
+    container_name: matryoshka_regulator_service
+    restart: unless-stopped
+    ports:
+      - "8002:8002"
+      - "50052:50052"
+    environment:
+      - DB_URL=postgresql+asyncpg://matryoshka:matryoshka_pass@postgres:5432/matryoshka_db
+      - DATABASE_URL=postgresql+asyncpg://matryoshka:matryoshka_pass@postgres:5432/matryoshka_db
+      - SERVICE_REST_PORT=8002
+      - SERVICE_GRPC_PORT=50052
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY:-}
+      - OPENROUTER_MODEL=anthropic/claude-3.5-sonnet
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: matryoshka_frontend
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    depends_on:
+      - enterprise-service
+      - regulator-service
+
+volumes:
+  postgres_data:

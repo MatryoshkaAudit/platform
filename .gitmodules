@@ -1,0 +1,15 @@
+[submodule "protos"]
+	path = protos
+	url = https://github.com/MatryoshkaAudit/protos.git
+[submodule "database"]
+	path = database
+	url = https://github.com/MatryoshkaAudit/database.git
+[submodule "enterprise-service"]
+	path = enterprise-service
+	url = https://github.com/MatryoshkaAudit/enterprise-service.git
+[submodule "regulator-service"]
+	path = regulator-service
+	url = https://github.com/MatryoshkaAudit/regulator-service.git
+[submodule "frontend"]
+	path = frontend
+	url = https://github.com/MatryoshkaAudit/frontend.git
