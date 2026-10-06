@@ -57,7 +57,7 @@ services:
       - SERVICE_REST_PORT=8002
       - SERVICE_GRPC_PORT=50052
       - OPENROUTER_API_KEY=${OPENROUTER_API_KEY:-}
-      - OPENROUTER_MODEL=anthropic/claude-3.5-sonnet
+      - OPENROUTER_MODEL=${OPENROUTER_MODEL:-meta-llama/llama-3.3-70b-instruct}
     depends_on:
       postgres:
         condition: service_healthy
