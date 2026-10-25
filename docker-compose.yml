@@ -34,6 +34,8 @@ services:
     ports:
       - "8001:8001"
       - "50051:50051"
+    volumes:
+      - ./enterprise-service/app:/app/enterprise-service/app
     environment:
       - DB_URL=postgresql+asyncpg://matryoshka:matryoshka_pass@postgres:5432/matryoshka_db
       - DATABASE_URL=postgresql+asyncpg://matryoshka:matryoshka_pass@postgres:5432/matryoshka_db
@@ -52,6 +54,8 @@ services:
     ports:
       - "8002:8002"
       - "50052:50052"
+    volumes:
+      - ./regulator-service/app:/app/regulator-service/app
     environment:
       - DB_URL=postgresql+asyncpg://matryoshka:matryoshka_pass@postgres:5432/matryoshka_db
       - DATABASE_URL=postgresql+asyncpg://matryoshka:matryoshka_pass@postgres:5432/matryoshka_db
