@@ -8,7 +8,7 @@ services:
       POSTGRES_PASSWORD: matryoshka_pass
       POSTGRES_DB: matryoshka_db
     ports:
-      - "5433:5432"
+      - "127.0.0.1:5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -23,7 +23,7 @@ services:
     container_name: matryoshka_redis
     restart: unless-stopped
     ports:
-      - "6379:6379"
+      - "127.0.0.1:6379:6379"
 
   enterprise-service:
     build:
@@ -76,8 +76,8 @@ services:
     security_opt:
       - seccomp:unconfined
     ports:
-      - "8123:8123"
-      - "9000:9000"
+      - "127.0.0.1:8123:8123"
+      - "127.0.0.1:9000:9000"
     environment:
       - CLICKHOUSE_DB=matryoshka_analytics
       - CLICKHOUSE_USER=default
@@ -106,6 +106,8 @@ services:
     ports:
       - "8003:8003"
       - "50053:50053"
+    volumes:
+      - ./analytics-service/app:/app/analytics-service/app
     environment:
       - CLICKHOUSE_HOST=clickhouse
       - CLICKHOUSE_PORT=8123
