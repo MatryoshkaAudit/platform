@@ -1,4 +1,4 @@
-.PHONY: up down seed test test-enterprise test-regulator test-analytics lint build-frontend
+.PHONY: up down seed test test-enterprise test-regulator test-analytics lint build-frontend check
 
 up:
 	docker compose up -d
@@ -11,6 +11,8 @@ seed:
 
 lint:
 	ruff check .
+
+check: lint test build-frontend
 
 test: test-enterprise test-regulator test-analytics
 
